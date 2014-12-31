@@ -709,7 +709,7 @@ xmap <s-tab> <
 set omnifunc=syntaxcomplete#Complete
 
 " deactivate neosnippet
-let g:neosnippet#disable_runtime_snippets = 1
+let g:neosnippet#disable_runtime_snippets = { 'c' : 1, 'cpp' : 1, }
 
 " Enable snipMate compatibility feature.
 let g:neosnippet#enable_snipmate_compatibility = 1
@@ -717,5 +717,9 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 " Tell Neosnippet about the other snippets
 let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
 
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " vim:foldmethod=marker:foldlevel=0
