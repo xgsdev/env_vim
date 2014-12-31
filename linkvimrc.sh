@@ -5,4 +5,4 @@ rm -rf $HOME/.vimrc
 
 ln -s $DIR/vimrc $HOME/.vimrc
 
-echo "end "
+echo "links is complete."
