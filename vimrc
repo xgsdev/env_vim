@@ -708,6 +708,9 @@ xmap <s-tab> <
 " Enable omni completion
 set omnifunc=syntaxcomplete#Complete
 
+" deactivate neosnippet
+let g:neosnippet#disable_runtime_snippets = 1
+
 " Enable snipMate compatibility feature.
 let g:neosnippet#enable_snipmate_compatibility = 1
 
