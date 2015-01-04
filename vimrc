@@ -56,8 +56,10 @@ set lazyredraw
 
 " For regular expressions turn magic on
 set magic
-set showcmd                 " show partially typed commands
-set showmode                " show the current mode
+" show partially typed commands
+set showcmd                 
+" show the current mode
+set showmode                
 
 " Show matching brackets when text indicator is over them
 set showmatch
@@ -74,10 +76,10 @@ set t_vb=
 set gcr=a:blinkon0 "Disable cursor blink
 
 " timeout for shortcuts
-set tm=500
-
+"set tm=500
 " Lower the delay of escaping out of other modes
 " set timeout timeoutlen=1000 ttimeoutlen=1
+" set timeout timeoutlen=1000 ttimeoutlen=100
 set timeout timeoutlen=200 ttimeoutlen=1
 
 
@@ -174,7 +176,6 @@ set wildignore+=*.png,*.jpg,*.gif
 set wildignore+=*.so,*.swp,*.zip,*/.Trash/**,*.pdf,*.dmg,*/Library/**,*/.rbenv/**
 set wildignore+=*/.nx/**,*.app
 
-
 " ================ Scrolling ========================
 " Minimal number of screen lines to keep above and below the cursor
 set scrolloff=8
@@ -223,12 +224,13 @@ set viminfo='30,\"100,:20,%
 " list listchars 
 set list 
 " Display unprintable chars
-set listchars=tab:▸\ ,eol:¬
-set listchars=tab:>.,trail:.,extends:#,nbsp:.
-set listchars=tab:»· 
+"set listchars=tab:▸\ ,eol:¬
+set listchars=eol:¬
+"set listchars=tab:>.,trail:.,extends:#,nbsp:.
+"set listchars=tab:»· 
 set listchars+=trail:· 
-set listchars+=extends:#
-set listchars+=nbsp:.
+"set listchars+=extends:#
+"set listchars+=nbsp:.
 set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
 set showbreak=↪
 
@@ -298,7 +300,7 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 nnoremap <leader>a :Ag
 
 set modelines=1
-set nomodeline             " disable mode lines (security measure)
+"set nomodeline             " disable mode lines (security measure)
 
 "easy brackets
 imap <C-c> <CR><Esc>O
