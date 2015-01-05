@@ -1,3 +1,177 @@
+ "***important
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set nocompatible        " must be first line
+set nopaste	paste
+set pastetoggle=<F2>
+
+ " vim: set foldenable foldmethod=marker foldlevel=0:
+
+"***moving around, searching and patterns
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set whichwrap+=<,>,h,l,[,]
+set whichwrap=b,s,h,l,<,>,[,]   " backspace and cursor keys wrap to
+
+" cursos is kept in the same column "set nosol                   
+set nostartofline
+
+" Makes search act like search in modern browsers
+set incsearch
+
+" For regular expressions turn magic on
+set magic
+
+" Ignore case when searching
+set ignorecase
+
+" When searching try to be smart about cases 
+set smartcase
+
+
+au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
+au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, etc)
+
+
+" Making it so ; works like : for commands. Saves typing and eliminates :W style typos due to lazy holding shift.
+nnoremap ; :
+
+
+" Smart way to move between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+
+
+
+"clearing highlighted search
+nmap <silent> <leader>/ :nohlsearch<CR>
+
+" Clears the search register
+nnoremap <silent> <leader>/ :nohlsearch<CR>
+
+" Disable highlight when <leader><cr> is pressed
+map <silent> <leader><cr> :noh<cr>
+
+
+
+
+"***displaying text
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Minimal number of screen lines to keep above and below the cursor
+set scrolloff=8
+set sidescrolloff=10
+set sidescroll=1
+
+" How many lines to scroll at a time, make scrolling appears faster
+set scrolljump=3
+
+"wrap long lines at a character in 'breakat'
+set linebreak               " nice word line breaks for wrap
+set nowrap                  " dont wrap lines
+
+"string to put before wrapped screen lines
+set showbreak=↪
+
+" Solid line for vsplit separator
+"fillchars	characters to use for the status line, folds and filler lines
+set fcs=vert:│
+
+" Height of the command bar
+set cmdheight=2
+
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+
+set number
+"relative numbers
+"set rnu
+set relativenumber
+
+" list listchars
+set list
+
+" Display unprintable chars
+"set listchars=tab:▸\ ,eol:¬
+"set listchars=tab:>.,trail:.,extends:#,nbsp:.
+"set listchars=tab:»· 
+"set listchars+=extends:#
+"set listchars+=nbsp:.
+set listchars=eol:¬
+set listchars+=trail:· 
+set listchars+=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
+
+
+
+
+"***syntax, highlighting and spelling
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set background=dark
+
+" Highlight search results
+set hlsearch
+
+set cursorline                  " highlight current line
+hi cursorline guibg=\#333333     " highlight bg color of current line
+hi CursorColumn guibg=\#333333   " highlight cursor
+
+set colorcolumn=85
+
+set nospell
+
+
+"***multiple windows
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Always show the status line
+set laststatus=2
+
+" A buffer becomes hidden when it is abandoned
+" allow switching buffers, which have unsaved changes
+set hidden
+
+
+"***terminal
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set title                " change the terminal's title
+
+"titlelen percentage of 'columns' used for the window title
+set titlelen=85
+
+
+
+
+
+
+"***using the mouse
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set mouse=a              " enable mouse
+
+
+"***messages and info
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+set showcmd                 " show partially typed commands
+
+set showmode                " show the current mode
+
+"Always show current position
+set ruler
+
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+set t_vb=
+set visualbell "No sounds
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -24,52 +198,17 @@ let mapleader = " "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Always show current position
-set ruler
-
-" Height of the command bar
-set cmdheight=2
-
-" A buffer becomes hidden when it is abandoned
-" allow switching buffers, which have unsaved changes
-set hidden
 
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
 
-set whichwrap+=<,>,h,l,[,]
 
-" Ignore case when searching
-set ignorecase
-
-" When searching try to be smart about cases 
-set smartcase
-
-" Highlight search results
-set hlsearch
-
-" Makes search act like search in modern browsers
-set incsearch
-
-" Don't redraw while executing macros (good performance config)
-set lazyredraw
-
-" For regular expressions turn magic on
-set magic
-set showcmd                 " show partially typed commands
-set showmode                " show the current mode
 
 " Show matching brackets when text indicator is over them
 set showmatch
 
 " How many tenths of a second to blink when matching brackets
 set mat=2
-
-" No annoying sound on errors
-set noerrorbells
-set novisualbell
-set visualbell "No sounds
-set t_vb=
 
 set gcr=a:blinkon0 "Disable cursor blink
 
@@ -84,12 +223,12 @@ set timeout timeoutlen=200 ttimeoutlen=1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set background=dark
 colorscheme molokai
 
 " Set extra options when running in GUI mode
 if has("gui_running")
-    set guioptions-=T
+    set guioptions-=T           " remove the toolbar
+    set lines=40                " 40 lines of text instead of 24,
     set guioptions+=e
     set t_Co=256
     set guitablabel=%M\ %t
@@ -134,23 +273,20 @@ set shiftround
 
 " copy the previous indentation on autoindenting
 set copyindent
-set number
 
 if has("gui_running")
 	set lines=45
 	set columns=84
 endif
 
-set pastetoggle=<F2>
 
-set linebreak               " nice word line breaks for wrap
 set tw=500
-set nowrap                  " dont wrap lines
 
 " Open all folds initially
 set foldmethod=indent
 set foldlevelstart=99
 set nofoldenable "dont fold by default
+set foldenable                  " auto fold code
 
 " Auto complete setting
 set completeopt=longest,menuone
@@ -175,15 +311,6 @@ set wildignore+=*.so,*.swp,*.zip,*/.Trash/**,*.pdf,*.dmg,*/Library/**,*/.rbenv/*
 set wildignore+=*/.nx/**,*.app
 
 
-" ================ Scrolling ========================
-" Minimal number of screen lines to keep above and below the cursor
-set scrolloff=8
-set sidescrolloff=10
-set sidescroll=1
-
-" How many lines to scroll at a time, make scrolling appears faster
-set scrolljump=3
-
 "Auto indent
 set autoindent
 
@@ -196,15 +323,6 @@ set smartindent
 " Treat long lines as break lines (useful when moving around in them)
 map j gj
 map k gk
-
-" Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
-
-" Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
@@ -220,23 +338,6 @@ autocmd BufReadPost *
 "  %    :  saves and restores the buffer list
 set viminfo='30,\"100,:20,%
 
-" list listchars 
-set list 
-" Display unprintable chars
-set listchars=tab:▸\ ,eol:¬
-set listchars=tab:>.,trail:.,extends:#,nbsp:.
-set listchars=tab:»· 
-set listchars+=trail:· 
-set listchars+=extends:#
-set listchars+=nbsp:.
-set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
-set showbreak=↪
-
-" Solid line for vsplit separator
-set fcs=vert:│
-
-" Always show the status line
-set laststatus=2
 
 " Remap VIM 0 to first non-blank character
 map 0 ^
@@ -288,7 +389,7 @@ function! s:unite_settings()
   imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
 endfunction
 
-" comments 
+" comments
 set com=b:#,:%,n:> 
 
 " comment character will not be automatically inserted in the next line under any situation.
@@ -297,8 +398,8 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " open ag.vim
 nnoremap <leader>a :Ag
 
+"set nomodeline             " disable mode lines (security measure)
 set modelines=1
-set nomodeline             " disable mode lines (security measure)
 
 "easy brackets
 imap <C-c> <CR><Esc>O
@@ -309,9 +410,7 @@ vnoremap / /\v
 
 " General settings
 
-set mouse=a              " enable mouse
 set clipboard=unnamed    " yank to X clipboard
-set title                " change the terminal's title
 
 " Writes to the unnamed register also writes to the * and + registers. This
 " makes it easy to interact with the system clipboard
@@ -376,8 +475,6 @@ nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
 autocmd MyAutoCmd BufEnter * 
       \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-" Clears the search register
-nnoremap <silent> <leader>/ :nohlsearch<CR>
 
 " Pull word under cursor into LHS of a substitute (for quick search and
 " replace)
@@ -391,16 +488,9 @@ set gdefault
 nnoremap <tab> %
 vnoremap <tab> %
 
-"set colorcolumn=85
-
-" Column width indicator
-set colorcolumn=+1
-
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
-
-nnoremap ; :
 
 
 try
@@ -426,8 +516,6 @@ endfunction
 " For programming languages using a semi colon at the end of statement.
 autocmd FileType c,cpp,css,java,javascript,perl,php nmap <silent><C-\> :call <SID>appendSemiColon()<cr>
 
-" cursos is kept in the same column "set nosol                   
-set nostartofline
 
 " ggggggggggggggggggggggggggggggggggggggggggggggggggggg
 
@@ -458,11 +546,13 @@ map n nzz
 " front and back of line
 "map H ^
 "map L $
-" timesavers
+
+" timesavers - shift key fixes
 cmap W w
 cmap WQ wq
 cmap wQ wq
 cmap Q q
+
 " Yank smart, to be consistent with C and D
 nnoremap Y y$
 
@@ -486,8 +576,6 @@ imap <F5> <C-R> ---<CR>USERNAME: <CR>COMMENTS: <CR>
 "set ic hlsearch
 ":.!pwgen -cn 12
 
-" relative numbers
-set rnu
 
 " fugitive always opens 3 buffers, left identified by //2 and right identified
 " by //3
@@ -512,8 +600,9 @@ nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>:Git push<cr>
 "===============================================================================
 autocmd MyAutoCmd FileType vim let b:delimitMate_quotes = "'"
 
-let delimitMate_expand_cr = 1
+"let delimitMate_expand_cr = 1
 
+ " Use local vimrc if available {
 if filereadable(glob("~/.xgs/vimrc-local")) 
     source ~/.xgs/vimrc-local
 endif
@@ -638,15 +727,13 @@ nnoremap p gp
 " \: Toggle comment
 nmap \ <Leader>c<space>
 " d: Delete into the blackhole register to not clobber the last yank
-nnoremap d "_d
+"nnoremap d "_d
 " dd: I use this often to yank a single line, retain its original behavior
 nnoremap dd dd
 " f: Find. Also support repeating with .
 " g: Many functions
 " gp to visually select pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
-" ;: Command mode
-noremap ; :
 " c: Change into the blackhole register to not clobber the last yank
 nnoremap c "_c
 " v: Visual mode
@@ -671,11 +758,11 @@ xnoremap y y`]
 
 " p: Paste in visual mode should not replace the default register with the
 " deleted text
-xnoremap p "_dP
+"xnoremap p "_dP
 
 " d: Delete into the blackhole register to not clobber the last yank. To 'cut',
 " use 'x' instead
-xnoremap d "_d
+"xnoremap d "_d
 
 " \: Toggle comment
 xmap \ <Leader>c<space>
@@ -719,7 +806,96 @@ let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
 
 
 " SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"imap <expr><TAB> neosnippet#expandable_or_jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+"smap <expr><TAB> neosnippet#expandable_or_jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
-" vim:foldmethod=marker:foldlevel=0
+imap <silent>L     <Plug>(neosnippet_jump_or_expand)
+smap <silent>L     <Plug>(neosnippet_jump_or_expand)
+xmap <silent>L     <Plug>(neosnippet_start_unite_snippet_target)
+imap <silent>K     <Plug>(neosnippet_expand_or_jump)
+smap <silent>K     <Plug>(neosnippet_expand_or_jump)
+
+"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+
+" For cursor moving in insert mode(Not recommended)
+"inoremap <expr><Left>  neocomplete#close_popup() . "\<Left>"
+"inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
+"inoremap <expr><Up>    neocomplete#close_popup() . "\<Up>"
+"inoremap <expr><Down>  neocomplete#close_popup() . "\<Down>"
+" Or set this.
+"let g:neocomplete#enable_cursor_hold_i = 1
+" Or set this.
+"let g:neocomplete#enable_insert_char_pre = 1
+
+" AutoComplPop like behavior.
+"let g:neocomplete#enable_auto_select = 1
+
+" Shell like behavior(not recommended).
+"set completeopt+=longest
+"let g:neocomplete#enable_auto_select = 1
+"let g:neocomplete#disable_auto_complete = 1
+"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" For perlomni.vim setting.
+" https://github.com/c9s/perlomni.vim
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
