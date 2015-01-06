@@ -1,16 +1,24 @@
  "***important
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 set nocompatible        " must be first line
-set nopaste	paste
-set pastetoggle=<F2>
 
- " vim: set foldenable foldmethod=marker foldlevel=0:
+execute pathogen#infect()
 
-"***moving around, searching and patterns
+" Enable syntax highlighting
+syntax on
+
+" Enable filetype plugins
+filetype plugin on
+filetype indent on
+
+" map leader
+nnoremap <Space> <nop>
+let mapleader = " "
+
+"***moving around, searching and patterns"{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-set whichwrap+=<,>,h,l,[,]
+"set whichwrap+=<,>,h,l,[,]
 set whichwrap=b,s,h,l,<,>,[,]   " backspace and cursor keys wrap to
 
 " cursos is kept in the same column "set nosol                   
@@ -28,37 +36,9 @@ set ignorecase
 " When searching try to be smart about cases 
 set smartcase
 
+"}}}
 
-au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
-au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, etc)
-
-
-" Making it so ; works like : for commands. Saves typing and eliminates :W style typos due to lazy holding shift.
-nnoremap ; :
-
-
-" Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
-
-
-
-
-"clearing highlighted search
-nmap <silent> <leader>/ :nohlsearch<CR>
-
-" Clears the search register
-nnoremap <silent> <leader>/ :nohlsearch<CR>
-
-" Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
-
-
-
-
-"***displaying text
+"***displaying text"{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Minimal number of screen lines to keep above and below the cursor
@@ -104,10 +84,9 @@ set listchars=eol:¬
 set listchars+=trail:· 
 set listchars+=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
 
+"}}}
 
-
-
-"***syntax, highlighting and spelling
+"***syntax, highlighting and spelling"{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set background=dark
@@ -123,8 +102,9 @@ set colorcolumn=85
 
 set nospell
 
+"}}}
 
-"***multiple windows
+"***multiple windows"{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Always show the status line
@@ -134,8 +114,9 @@ set laststatus=2
 " allow switching buffers, which have unsaved changes
 set hidden
 
+"}}}
 
-"***terminal
+"***terminal"{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set title                " change the terminal's title
@@ -143,20 +124,17 @@ set title                " change the terminal's title
 "titlelen percentage of 'columns' used for the window title
 set titlelen=85
 
+"}}}
 
-
-
-
-
-"***using the mouse
+"***using the mouse"{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set mouse=a              " enable mouse
 
+"}}}
 
-"***messages and info
+"***messages and info"{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 
 set showcmd                 " show partially typed commands
 
@@ -171,92 +149,41 @@ set novisualbell
 set t_vb=
 set visualbell "No sounds
 
+"}}}
 
+"***editing text"{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-execute pathogen#infect()
 
-" Enable syntax highlighting
-syntax on
-
-" Enable filetype plugins
-filetype plugin on
-filetype indent on
-
-" Sets how many lines of history VIM has to remember
-set history=700
-set nocompatible
-
-" Set to auto read when a file is changed from the outside
-set autoread
-
-" map leader
-nnoremap <Space> <nop>
-let mapleader = " "
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set textwidth=500
 
 " Configure backspace so it acts as it should act
+"specifies what <BS>, CTRL-W, etc. can do in Insert mode
 set backspace=eol,start,indent
 
+" comments
+"definition of what comment lines look like
+set com=b:#,:%,n:>
 
+" comment character will not be automatically inserted in the next line under any situation.
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+" Auto complete setting
+set completeopt=longest,menuone
+
+" Enable omni completion
+set omnifunc=syntaxcomplete#Complete
 
 " Show matching brackets when text indicator is over them
 set showmatch
 
 " How many tenths of a second to blink when matching brackets
-set mat=2
+set matchtime=2
 
-set gcr=a:blinkon0 "Disable cursor blink
+"}}}
 
-" timeout for shortcuts
-set tm=500
-
-" Lower the delay of escaping out of other modes
-" set timeout timeoutlen=1000 ttimeoutlen=1
-set timeout timeoutlen=200 ttimeoutlen=1
-
-
+"***tabs and indenting"{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-colorscheme molokai
 
-" Set extra options when running in GUI mode
-if has("gui_running")
-    set guioptions-=T           " remove the toolbar
-    set lines=40                " 40 lines of text instead of 24,
-    set guioptions+=e
-    set t_Co=256
-    set guitablabel=%M\ %t
-endif
-if (&term =~ "-256color")
-    set t_Co=256
-endif
-
-" 256bit terminal
-set t_Co=256
-
-" Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf8
-
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
-set nobackup
-set nowritebackup
-set noswapfile
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use spaces instead of tabs
 set expandtab
 
@@ -271,30 +198,91 @@ set softtabstop=4           " used in smarttab. same as tabstop
 " use multiple of shiftwidth when indenting with '<' and '>'
 set shiftround
 
+"Auto indent
+set autoindent
+
+"Smart indent
+set smartindent
+
 " copy the previous indentation on autoindenting
+"copy whitespace for indenting from previous line
 set copyindent
 
-if has("gui_running")
-	set lines=45
-	set columns=84
-endif
+"}}}
 
-
-set tw=500
+"***folding"{{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Open all folds initially
-set foldmethod=indent
-set foldlevelstart=99
-set nofoldenable "dont fold by default
+"set nofoldenable "dont fold by default
+"folding type: "manual", "indent", "expr", "marker" or "syntax"
 set foldenable                  " auto fold code
+set foldlevelstart=99
+set foldmethod=indent
 
-" Auto complete setting
-set completeopt=longest,menuone
+"}}}
+
+"***mapping"{{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" timeout for shortcuts
+"timeoutlen
+"set tm=500
+
+" Lower the delay of escaping out of other modes
+" set timeout timeoutlen=1000 ttimeoutlen=1
+"timeout allow timing out halfway into a mapping
+"ttimeout allow timing out halfway into a key code
+set timeout timeoutlen=200 ttimeoutlen=1
+
+"}}}
+
+"***reading and writing files"{{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"set nomodeline             " disable mode lines (security measure)
+set modeline
+"number of lines to check for modelines
+set modelines=1
+
+"list of file formats to look for when editing a file
+set fileformats=unix,dos,mac
+
+" Use Unix as the standard file type
+"end-of-line format: "dos", "unix" or "mac"
+set fileformat=unix
+
+" ***************
+"set cm=blowfish
+"set noswapfile
+"set nowritebackup
+"set viminfo=
+"set nobackup
+"set backup
+"set ic hlsearch
+" ***************
+
+" Turn backup off, since most stuff is in SVN, git et.c anyway...
+set nobackup
+set nowritebackup
+set noswapfile
+
+" Set to auto read when a file is changed from the outside
+set autoread
+
+"}}}
+
+"***command line editing"{{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Sets how many lines of history VIM has to remember
+set history=700
 
 " Turn on the wild menu
+"command-line completion shows a list of matches
 set wildmenu
 
-set wildmode=list:longest
+"specifies how command line completion works
 set wildmode=list:longest,full
 set wildmenu "enable ctrl-n and ctrl-p to scroll thru matches
 set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
@@ -310,12 +298,85 @@ set wildignore+=*.png,*.jpg,*.gif
 set wildignore+=*.so,*.swp,*.zip,*/.Trash/**,*.pdf,*.dmg,*/Library/**,*/.rbenv/**
 set wildignore+=*/.nx/**,*.app
 
+"}}}
 
-"Auto indent
-set autoindent
+"***running make and jumping to errors"{{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"Smart indent
-set smartindent
+"help keep ack-grep search clean
+"string used to put the output of ":make" in the error file
+set shellpipe=>
+
+"}}}
+
+"*** multi-byte characters"{{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+
+"}}}
+
+"***various
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" global search no by default :%s/foo/bar/
+set gdefault
+
+" viminfo
+" Tell vim to remember certain things when we exit
+"  '30  :  marks will be remembered for up to 10 previously edited files
+"  "100 :  will save up to 100 lines for each register
+"  :20  :  up to 20 lines of command-line history will be remembered
+"  %    :  saves and restores the buffer list
+set viminfo='30,\"100,:20,%
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" => General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nopaste	paste
+set pastetoggle=<F2>
+
+au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
+au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, etc)
+
+" Making it so ; works like : for commands. Saves typing and eliminates :W style typos due to lazy holding shift.
+nnoremap ; :
+
+" Smart way to move between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+"clearing highlighted search
+nmap <silent> <leader>/ :nohlsearch<CR>
+
+" Clears the search register
+nnoremap <silent> <leader>/ :nohlsearch<CR>
+
+" Disable highlight when <leader><cr> is pressed
+map <silent> <leader><cr> :noh<cr>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Colors and Fonts
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+colorscheme molokai
+
+" Set extra options when running in GUI mode
+if has("gui_running")
+    set guioptions-=T           " remove the toolbar
+    set lines=40                " 40 lines of text instead of 24,
+	set columns=84
+    set guioptions+=e
+    set t_Co=256
+    set guitablabel=%M\ %t
+endif
+
+" 256bit terminal
+set t_Co=256
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
@@ -330,17 +391,6 @@ autocmd BufReadPost *
      \   exe "normal! g`\"" |
      \ endif
 
-" viminfo
-" Tell vim to remember certain things when we exit
-"  '30  :  marks will be remembered for up to 10 previously edited files
-"  "100 :  will save up to 100 lines for each register
-"  :20  :  up to 20 lines of command-line history will be remembered
-"  %    :  saves and restores the buffer list
-set viminfo='30,\"100,:20,%
-
-
-" Remap VIM 0 to first non-blank character
-map 0 ^
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vimgrep searching and cope displaying
@@ -389,17 +439,9 @@ function! s:unite_settings()
   imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
 endfunction
 
-" comments
-set com=b:#,:%,n:> 
-
-" comment character will not be automatically inserted in the next line under any situation.
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " open ag.vim
 nnoremap <leader>a :Ag
-
-"set nomodeline             " disable mode lines (security measure)
-set modelines=1
 
 "easy brackets
 imap <C-c> <CR><Esc>O
@@ -475,33 +517,19 @@ nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
 autocmd MyAutoCmd BufEnter * 
       \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-
 " Pull word under cursor into LHS of a substitute (for quick search and
 " replace)
 nnoremap <leader>z :%s#\<<C-r>=expand("<cword>")<CR>\>#
+
 " Fast saving nmap <leader>w :w!<cr> 
-"}}}
+nmap <leader>w :w!<cr> 
 
-
-" global search no by default :%s/foo/bar/
-set gdefault
 nnoremap <tab> %
 vnoremap <tab> %
 
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
-
-
-try
-  source ~/.vimrc.local
-catch
-endtry
-
-try
-  lang en_us
-catch
-endtry
 
 " Auto semi colon 
 " If there isn't one, append a semi colon to the end of the current line.
@@ -515,9 +543,6 @@ endfunction
 
 " For programming languages using a semi colon at the end of statement.
 autocmd FileType c,cpp,css,java,javascript,perl,php nmap <silent><C-\> :call <SID>appendSemiColon()<cr>
-
-
-" ggggggggggggggggggggggggggggggggggggggggggggggggggggg
 
 " Making Vim Extra Useful {{{
 
@@ -533,19 +558,11 @@ imap <right> <nop>
 
 "}}}
 
-" My Mappings {{{
+" My Mappings 
 
 " use these to escape in insert more
 imap jk <Esc>
-"imap kj <Esc>
-"imap ;; <Esc>
-"imap ii <Esc>
-" Search mappings: search will center on the line 
-map N Nzz
-map n nzz
-" front and back of line
-"map H ^
-"map L $
+imap kj <Esc>
 
 " timesavers - shift key fixes
 cmap W w
@@ -557,8 +574,6 @@ cmap Q q
 nnoremap Y y$
 
 let g:ackprg='ag --nogroup --nocolor --column'
-"help keep ack-grep search clean
-set shellpipe=>
 
 " timestamp
 nmap <F4> a<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>
@@ -566,16 +581,6 @@ imap <F4> <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR>
 " template 
 nmap <F5> a<C-R> ---<CR>USERNAME: <CR>COMMENTS: <CR><Esc>
 imap <F5> <C-R> ---<CR>USERNAME: <CR>COMMENTS: <CR>
-" ***************************************
-"set cm=blowfish
-"set nobackup
-"set noswapfile
-"set nowritebackup
-"set viminfo=
-"set backup
-"set ic hlsearch
-":.!pwgen -cn 12
-
 
 " fugitive always opens 3 buffers, left identified by //2 and right identified
 " by //3
@@ -640,13 +645,13 @@ nnoremap <Leader>q :qa<cr>
 " <Leader>f: Open Quickfix
 nnoremap <silent> <Leader>f :botright copen<CR>
 
+" Remap VIM 0 to first non-blank character
+map 0 ^
+
 " H: Go to beginning of line.
 noremap H ^
 
 noremap L g_
-
-" N: Find next occurrence backward
-nnoremap N Nzzzv
 
 " Ctrl-sr: Easier (s)earch and (r)eplace
 nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
@@ -736,10 +741,16 @@ nnoremap dd dd
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " c: Change into the blackhole register to not clobber the last yank
 nnoremap c "_c
+
 " v: Visual mode
 " b: Move word backward
 " n: Next, keep search matches in the middle of the window
 nnoremap n nzzzv
+
+" Search mappings: search will center on the line 
+map N Nzzv
+
+
 " Up Down Left Right resize splits
 nnoremap <up> <c-w>+
 nnoremap <down> <c-w>-
@@ -764,17 +775,8 @@ xnoremap y y`]
 " use 'x' instead
 "xnoremap d "_d
 
-" \: Toggle comment
-xmap \ <Leader>c<space>
-
-" Enter: Highlight visual selections
-xnoremap <silent> <CR> y:let @/ = @"<cr>:set hlsearch<cr>
-
 " Backspace: Delete selected and go into insert mode
 xnoremap <bs> c
-
-" Space: QuickRun
-xnoremap <space> :QuickRun<CR>
 
 " <|>: Reselect visual block after indent
 xnoremap < <gv
@@ -791,9 +793,6 @@ xmap <Tab> >
 
 " shift-tab: unindent
 xmap <s-tab> <
-
-" Enable omni completion
-set omnifunc=syntaxcomplete#Complete
 
 " deactivate neosnippet
 let g:neosnippet#disable_runtime_snippets = { 'c' : 1, 'cpp' : 1, }
@@ -899,3 +898,4 @@ endif
 " https://github.com/c9s/perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
+ " vim: set foldenable foldmethod=marker foldlevel=0:
