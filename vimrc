@@ -1,4 +1,4 @@
- "***important
+ "***important"{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible        " must be first line
 
@@ -14,6 +14,8 @@ filetype indent on
 " map leader
 nnoremap <Space> <nop>
 let mapleader = " "
+
+"}}}
 
 "***moving around, searching and patterns"{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

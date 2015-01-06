@@ -1,0 +1,17 @@
+important
+moving around, searching and patterns
+displaying text
+syntax, highlighting and spelling
+multiple windows
+terminal
+using the mouse
+messages and info
+editing text
+tabs and indenting
+folding
+mapping
+reading and writing files
+command line editing
+running make and jumping to errors
+multi-byte characters
+various
