@@ -38,6 +38,19 @@ set ignorecase
 " When searching try to be smart about cases 
 set smartcase
 
+" Treat long lines as break lines (useful when moving around in them)
+map j gj
+map k gk
+
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
+
+"clearing highlighted search
+nmap <silent> <leader>/ :nohlsearch<CR>
+
 "}}}
 
 "***displaying text"{{{
@@ -337,7 +350,7 @@ set viminfo='30,\"100,:20,%
 
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nopaste	paste
+set nopaste
 set pastetoggle=<F2>
 
 au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
@@ -351,16 +364,6 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
-
-"clearing highlighted search
-nmap <silent> <leader>/ :nohlsearch<CR>
-
-" Clears the search register
-nnoremap <silent> <leader>/ :nohlsearch<CR>
-
-" Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -379,20 +382,6 @@ endif
 
 " 256bit terminal
 set t_Co=256
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Moving around, tabs, windows and buffers
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Treat long lines as break lines (useful when moving around in them)
-map j gj
-map k gk
-
-" Return to last edit position when opening files (You want this!)
-autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vimgrep searching and cope displaying
@@ -665,20 +654,12 @@ nmap <c-s><c-w> ysiw
 nnoremap <c-g> 1<c-g>
 
 " Ctrl-h: Move word back. Consistent with zsh
-noremap <c-h> b
-inoremap <c-h> <c-o>b
-
-" Ctrl-j: Scroll + move down through the file
-" noremap <c-j> 3<c-e>3j
-noremap <c-j> 3<c-e>
-
-" Ctrl-k: Scroll + move up through the file
-" noremap <c-k> 3<c-y>3k
-noremap <c-k> 3<c-y>
+"noremap <c-h> b
+"inoremap <c-h> <c-o>b
 
 " Ctrl-l: Move word forward. Consistent with zsh
-noremap <c-l> w
-inoremap <c-l> <c-o>w
+"noremap <c-l> w
+"inoremap <c-l> <c-o>w
 
 " Ctrl-x: Cycle through the splits. I don't ever use enough splits to justify
 " wasting 4 very easy to hit keys for them.
