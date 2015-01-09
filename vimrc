@@ -480,34 +480,6 @@ endif
 nnoremap <C-a> ggVG
 inoremap <C-a> ggVG
 
-" NERD Tree Plugin Settings
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let g:NERDTreeWinSize = 30
-
-" Toggle the NERD Tree on an off with F7
-nmap <F7> :NERDTreeToggle<CR>
-
-"launch NERDTree
-"map <silent> <F7> :NERDTreeToggle<CR>
-
-" Show the bookmarks table on startup
-let NERDTreeShowBookmarks=1
-
-"===============================================================================
-" NERDTree
-"===============================================================================
-
-let NERDTreeShowHidden=1
-let NERDTreeIgnore=['\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-
-" Shift-Tab: NERDTree
-nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
-
-" Close vim if the only window open is nerdtree
-autocmd MyAutoCmd BufEnter * 
-      \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
 " Pull word under cursor into LHS of a substitute (for quick search and
 " replace)
 nnoremap <leader>z :%s#\<<C-r>=expand("<cword>")<CR>\>#
@@ -577,26 +549,6 @@ imap <F5> <C-R> ---<CR>USERNAME: <CR>COMMENTS: <CR>
 " by //3
 nmap <leader>dgl :diffget //2 \| :diffupdate<CR>
 nmap <leader>dgr :diffget //3 \| :diffupdate<CR>
-
-"===============================================================================
-" Fugitive
-"===============================================================================
-nnoremap <Leader>gb :Gblame<cr>
-nnoremap <Leader>gc :Gcommit<cr>
-nnoremap <Leader>gd :Gdiff<cr>
-nnoremap <Leader>gp :Git push<cr>
-nnoremap <Leader>gr :Gremove<cr>
-nnoremap <Leader>gs :Gstatus<cr>
-nnoremap <Leader>gw :Gwrite<cr>
-" Quickly stage, commit, and push the current file. Useful for editing .vimrc
-nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>:Git push<cr>
-
-"===============================================================================
-" DelimitMate
-"===============================================================================
-autocmd MyAutoCmd FileType vim let b:delimitMate_quotes = "'"
-
-"let delimitMate_expand_cr = 1
 
  " Use local vimrc if available {
 if filereadable(glob("~/.xgs/vimrc-local")) 
@@ -785,7 +737,6 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 
 " Tell Neosnippet about the other snippets
 let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-
 
 " SuperTab like snippets behavior.
 "imap <expr><TAB> neosnippet#expandable_or_jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
