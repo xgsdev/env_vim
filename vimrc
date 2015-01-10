@@ -248,7 +248,7 @@ set foldmethod=indent
 " set timeout timeoutlen=1000 ttimeoutlen=1
 "timeout allow timing out halfway into a mapping
 "ttimeout allow timing out halfway into a key code
-set timeout timeoutlen=200 ttimeoutlen=1
+set timeout timeoutlen=500 ttimeoutlen=1
 
 "}}}
 
@@ -345,7 +345,6 @@ set gdefault
 "  %    :  saves and restores the buffer list
 set viminfo='30,\"100,:20,%
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " => General
@@ -387,25 +386,17 @@ set t_Co=256
 " => vimgrep searching and cope displaying
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Open vimgrep and put the cursor in the right position
-map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
+map <leader>g :vimgrep // **/* <left><left><left><left><left><left><left>
+"
+" open ag.vim
+nnoremap <leader>a :Ag -i   **/*<left><left><left><left><left><left>
 
-" Vimgreps in the current file
-map <leader><space> :vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>
+let g:agprg='ag --column'
 
-" Do :help cope if you are unsure what cope is. It's super useful!
-"
-" When you search with vimgrep, display your results in cope by doing:
-"   <leader>cc
-"
-" To go to the next search result do:
-"   <leader>n
-"
-" To go to the previous search results do:
-"   <leader>p
-"
-map <leader>cc :botright cope<cr>
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
+"Search and replace using quickfix list in Vim
+":Ggrep findme
+":Qargs | argdo %s/findme/replacement/gc | update
+nnoremap <Leader>9 :Qargs 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
@@ -431,15 +422,12 @@ function! s:unite_settings()
 endfunction
 
 
-" open ag.vim
-nnoremap <leader>a :Ag
-
 "easy brackets
 imap <C-c> <CR><Esc>O
 
 " turns off Vim crazy default regex 
-nnoremap / /\v
-vnoremap / /\v
+" nnoremap / /\v
+" vnoremap / /\v
 
 " General settings
 
@@ -536,8 +524,6 @@ cmap Q q
 " Yank smart, to be consistent with C and D
 nnoremap Y y$
 
-let g:ackprg='ag --nogroup --nocolor --column'
-
 " timestamp
 nmap <F4> a<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>
 imap <F4> <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR>
@@ -556,7 +542,7 @@ if filereadable(glob("~/.xgs/vimrc-local"))
 endif
 
 nnoremap <Leader>q :q<CR>
-nnoremap <Leader>e :e
+" nnoremap <Leader>e :e
 nnoremap <Leader>v :vsplit
 nnoremap <Leader>s :split
 
@@ -584,9 +570,6 @@ nnoremap <silent> <Leader>1 :set paste!<cr>
 
 " <Leader>q: Quit all, very useful in vimdiff
 nnoremap <Leader>q :qa<cr>
-
-" <Leader>f: Open Quickfix
-nnoremap <silent> <Leader>f :botright copen<CR>
 
 " Remap VIM 0 to first non-blank character
 map 0 ^
@@ -620,9 +603,17 @@ nnoremap <c-x> <c-w>w
 " Ctrl-b: Go (b)ack. Go to previously buffer
 nnoremap <c-b> <c-^>
 
-" Ctrl-Space: Quick scratch buffer
-nmap <C-@> <Plug>(scratch-open)
-nmap <C-Space> <C-@>
+" Quick scratch buffer
+nnoremap <leader>8 :Scratch<CR>
+
+" So both C-[ and C-] are equivalent to <Esc> (widen the target area)
+" Note that in normal mode, C-] means follow link, so you should train 
+" yourself to use C-[, this is just here in case you screw up once.
+imap <C-]> <Esc>
+vmap <C-]> <Esc> 
+ 
+" Fix annoying surround.vim message
+vmap s S
 
 " Ctrl-e: Go to end of line
 inoremap <c-e> <esc>A
@@ -831,5 +822,24 @@ endif
 " For perlomni.vim setting.
 " https://github.com/c9s/perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+
+
+" Make sure we don't syntax check when a file is open as doing so might lead
+" to vulnerabilities or performance issues.
+let g:syntastic_check_on_open = 0
+" Always stick detected errors into the location list.
+let g:syntastic_always_populate_loc_list=1
+" Automatically open when errors are detected and close when there are none.
+let g:syntastic_auto_loc_list=1
+" Default only to 5 lines instead of 10 (better when in the terminal)
+let g:syntastic_loc_list_height = 5
+
+" Turn rainbow parenthesis script on
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
 
  " vim: set foldenable foldmethod=marker foldlevel=0:

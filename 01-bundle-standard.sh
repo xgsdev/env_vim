@@ -28,6 +28,7 @@ standard=( \
     "https://github.com/airblade/vim-rooter.git" \
     "https://github.com/MarcWeber/vim-addon-local-vimrc.git" \
     "https://github.com/terryma/vim-expand-region.git" \
+    "https://github.com/milkypostman/vim-togglelist.git" \
     )
 
 # checks first to see if they exist
