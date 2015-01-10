@@ -1,4 +1,16 @@
 
+
+
+apple  = 1
+banana += apple
+cake   = banana
+
+var test = {
+    "sda":     'sadasda'
+    'sadasda': 'sadasdas'
+    'ass':     'sadas'
+}
+
 /**
  * Expose
  */

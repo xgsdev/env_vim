@@ -1,32 +1,4 @@
 
-" NERD Tree Plugin Settings
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let g:NERDTreeWinSize = 30
-
-" Toggle the NERD Tree on an off with F7
-nmap <F7> :NERDTreeToggle<CR>
-
-"launch NERDTree
-"map <silent> <F7> :NERDTreeToggle<CR>
-
-" Show the bookmarks table on startup
-let NERDTreeShowBookmarks=1
-
-"===============================================================================
-" NERDTree
-"===============================================================================
-
-let NERDTreeShowHidden=1
-let NERDTreeIgnore=['\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-
-" Shift-Tab: NERDTree
-nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
-
-" Close vim if the only window open is nerdtree
-autocmd MyAutoCmd BufEnter * 
-      \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
 
 "===============================================================================
 " Fugitive

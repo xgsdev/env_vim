@@ -32,3 +32,19 @@ leader-8
 ## expand regions
 
     Press + to expand the visual selection and _ to shrink it.
+
+### easy align
+
+try these commands:
+
+    vip<Enter>=
+        visual-select inner paragraph
+        Start EasyAlign command (<Enter>)
+        Align around =
+    gaip=
+        Start EasyAlign command (ga) for inner paragraph
+        Align around =
+
+or
+    ga2j only two below
+

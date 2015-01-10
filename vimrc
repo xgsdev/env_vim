@@ -577,7 +577,7 @@ map 0 ^
 " H: Go to beginning of line.
 noremap H ^
 
-noremap L g_
+"noremap L g_
 
 " Ctrl-sr: Easier (s)earch and (r)eplace
 nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
@@ -765,7 +765,7 @@ let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 " Plugin key-mappings.
 inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
+" inoremap <expr><C-l>     neocomplete#complete_common_string()
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
@@ -840,6 +840,40 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
+
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+nnoremap cc :TComment<CR> 
+vnoremap cc :TCommentBlock<CR> 
+
+" fast exit
+nmap __ :qa<CR>
+
+
+" NERD Tree Plugin Settings
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+" let g:NERDTreeWinSize = 30
+" Show the bookmarks table on startup
+let NERDTreeShowBookmarks=1
+let NERDTreeShowHidden=1
+let NERDTreeIgnore=['\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+
+" Toggle the NERD Tree on an off with F7
+nmap <silent> <F7> :NERDTreeToggle<CR>
+
+" Shift-Tab: NERDTree
+nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
+
+" Close vim if the only window open is nerdtree
+autocmd MyAutoCmd BufEnter * 
+      \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+
 
 
  " vim: set foldenable foldmethod=marker foldlevel=0:
