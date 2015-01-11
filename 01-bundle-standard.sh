@@ -16,7 +16,6 @@ standard=( \
     "https://github.com/tpope/vim-unimpaired.git" \
     "https://github.com/justinmk/vim-sneak.git" \
     "https://github.com/Shougo/unite.vim.git" \
-    "https://github.com/ervandew/supertab.git" \
     "https://github.com/nelstrom/vim-qargs.git" \
     "https://github.com/mtth/scratch.vim.git" \
     "https://github.com/bling/vim-bufferline.git" \

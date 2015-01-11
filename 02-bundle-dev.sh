@@ -22,6 +22,7 @@ standard=( \
     "https://github.com/Shougo/vimshell.vim.git" \
     "https://github.com/scrooloose/syntastic.git" \
     "https://github.com/terryma/vim-multiple-cursors.git" \
+    "https://github.com/marijnh/tern_for_vim.git" \
     )
 
 # checks first to see if they exist
