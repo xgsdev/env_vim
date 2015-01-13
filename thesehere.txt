@@ -5,9 +5,9 @@ neosnippet.vim
 vim-snippets
 
 
+unite.vim
 unite-session
     unite-outline
-unite.vim
 vimproc.vim
 vimshell.vim
 

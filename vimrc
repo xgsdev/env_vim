@@ -401,27 +401,6 @@ nnoremap <Leader>9 :Qargs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Unite
-let g:unite_source_history_yank_enable = 1
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
-nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files   -start-insert file<cr>
-nnoremap <leader>r :<C-u>Unite -no-split -buffer-name=mru     -start-insert file_mru<cr>
-nnoremap <leader>o :<C-u>Unite -no-split -buffer-name=outline -start-insert outline<cr>
-nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank    history/yank<cr>
-nnoremap <leader>e :<C-u>Unite -no-split -buffer-name=buffer  buffer<cr>
-
-" Custom mappings for the unite buffer
-autocmd FileType unite call s:unite_settings()
-function! s:unite_settings()
-  " Play nice with supertab
-  let b:SuperTabDisabled=1
-  " Enable navigation with control-j and control-k in insert mode
-  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-endfunction
-
-
 "easy brackets
 imap <C-c> <CR><Esc>O
 
@@ -735,7 +714,11 @@ vnoremap cc :TCommentBlock<CR>
 " fast exit
 nmap __ :qa<CR>
 
-" NERD Tree Plugin Settings
+"===============================================================================
+" *************** Plugins *****************************
+"===============================================================================
+
+" NERD Tree Plugin Settings "{{{
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 " let g:NERDTreeWinSize = 30
@@ -754,8 +737,10 @@ nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
 autocmd MyAutoCmd BufEnter * 
       \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
+"}}}
 
-"===============================================================================
+" neocomplete plugin "{{{
+
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
@@ -811,7 +796,9 @@ autocmd FileType javascript setlocal omnifunc=tern#Complete
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-"===============================================================================
+"}}}
+
+" neosnippet plugin "{{{
 
 " deactivate neosnippet
 let g:neosnippet#disable_runtime_snippets = { 'c' : 1, 'cpp' : 1, }
@@ -835,6 +822,44 @@ imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>     <Plug>(neosnippet_expand_target)
 
+"}}}
+
+" Unite plugin "{{{
+let g:unite_source_history_yank_enable = 1
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+" nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
+" nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files   -start-insert file<cr>
+
+nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files file_rec/async:!<cr>
+nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files file<cr>
+
+nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank    history/yank<cr>
+
+nnoremap <leader>b :<C-u>Unite -no-split -buffer-name=buffers buffer -quick-match<CR>
+nnoremap <leader>e :<C-u>Unite -no-split -buffer-name=buffer  buffer<cr>
+
+
+ let g:unite_source_grep_command='ag'
+let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4'
+let g:unite_source_grep_recursive_opt=''
+
+" nnoremap <leader>/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
+nnoremap <leader>/ :<C-u>Unite -buffer-name=search grep:.<cr>
+" nnoremap /  :Unite line<cr>
+
+
+" Custom mappings for the unite buffer
+autocmd FileType unite call s:unite_settings()
+function! s:unite_settings()
+  " Enable navigation with control-j and control-k in insert mode
+  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+endfunction
+
+
+
+
+"}}}
 
 
 
