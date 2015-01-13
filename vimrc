@@ -1,6 +1,6 @@
  "***important"{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible        " must be first line
+set nocompatible
 
 execute pathogen#infect()
 
@@ -23,7 +23,7 @@ let mapleader = " "
 "set whichwrap+=<,>,h,l,[,]
 set whichwrap=b,s,h,l,<,>,[,]   " backspace and cursor keys wrap to
 
-" cursos is kept in the same column "set nosol                   
+" cursos is kept in the same column -set nosol
 set nostartofline
 
 " Makes search act like search in modern browsers
@@ -49,7 +49,7 @@ autocmd BufReadPost *
      \ endif
 
 "clearing highlighted search
-nmap <silent> <leader>/ :nohlsearch<CR>
+nmap <silent> <leader><cr> :nohlsearch<CR>
 
 "}}}
 
@@ -57,8 +57,8 @@ nmap <silent> <leader>/ :nohlsearch<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Minimal number of screen lines to keep above and below the cursor
-set scrolloff=8
-set sidescrolloff=10
+set scrolloff=5
+set sidescrolloff=8
 set sidescroll=1
 
 " How many lines to scroll at a time, make scrolling appears faster
@@ -76,14 +76,13 @@ set showbreak=↪
 set fcs=vert:│
 
 " Height of the command bar
-set cmdheight=2
+set cmdheight=1
 
 " Don't redraw while executing macros (good performance config)
 set lazyredraw
 
-set number
-"relative numbers
-"set rnu
+"set number
+"relative numbers -set rnu
 set relativenumber
 
 " list listchars
@@ -352,9 +351,6 @@ set viminfo='30,\"100,:20,%
 set nopaste
 set pastetoggle=<F2>
 
-au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
-au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, etc)
-
 " Making it so ; works like : for commands. Saves typing and eliminates :W style typos due to lazy holding shift.
 nnoremap ; :
 
@@ -412,22 +408,14 @@ imap <C-c> <CR><Esc>O
 
 set clipboard=unnamed    " yank to X clipboard
 
-" Writes to the unnamed register also writes to the * and + registers. This
-" makes it easy to interact with the system clipboard
-if has ('unnamedplus')
-  set clipboard=unnamedplus
-else
-  set clipboard=unnamed
-endif
-
 " Speed up scrolling of the viewport slightly
 nnoremap <C-e> 2<C-e>
 nnoremap <C-y> 2<C-y>
 
-" Set augroup
-augroup MyAutoCmd
-    autocmd!
-augroup END
+" Remove ALL autocommands to prevent them from being loaded twice
+if has('autocmd')
+  autocmd!
+endif
 
 " C-a to select all
 nnoremap <C-a> ggVG
@@ -460,8 +448,6 @@ endfunction
 " For programming languages using a semi colon at the end of statement.
 autocmd FileType c,cpp,css,java,javascript,perl,php nmap <silent><C-\> :call <SID>appendSemiColon()<cr>
 
-" Making Vim Extra Useful {{{
-
 " disable arrow keys
 map <up> <nop>
 map <down> <nop>
@@ -471,10 +457,6 @@ imap <up> <nop>
 imap <down> <nop>
 imap <left> <nop>
 imap <right> <nop>
-
-"}}}
-
-" My Mappings 
 
 " use these to escape in insert more
 imap jk <Esc>
@@ -506,8 +488,6 @@ if filereadable(glob("~/.xgs/vimrc-local"))
     source ~/.xgs/vimrc-local
 endif
 
-nnoremap <Leader>q :q<CR>
-" nnoremap <Leader>e :e
 nnoremap <Leader>v :vsplit
 nnoremap <Leader>s :split
 
@@ -516,28 +496,11 @@ nnoremap q <nop>
 " stop EX mode
 nnoremap Q <nop>
 
-hi Pmenu guifg=\#000000 guibg=\#F8F8F8 ctermfg=black ctermbg=Lightgray
+higlight Pmenu guifg=\#000000 guibg=\#F8F8F8 ctermfg=black ctermbg=Lightgray
+"highlight PmenuSel       ctermfg=4 ctermbg=7 guifg=LightBlue
 
 " U: Redos since 'u' undos
 nnoremap U :redo<cr>
-
-" _ : Quick horizontal splits
-nnoremap _ :sp<cr>
-
-" | : Quick vertical splits
-nnoremap <bar> :vsp<cr>
-
-" <Leader>``: Force quit all
-nnoremap <Leader>`` :qa!<cr>
-
-" <Leader>1: Toggle between paste mode
-nnoremap <silent> <Leader>1 :set paste!<cr>
-
-" <Leader>q: Quit all, very useful in vimdiff
-nnoremap <Leader>q :qa<cr>
-
-" Remap VIM 0 to first non-blank character
-map 0 ^
 
 " H: Go to beginning of line.
 noremap H ^
@@ -553,20 +516,9 @@ nmap <c-s><c-w> ysiw
 " Ctrl-g: Prints current file name (TODO Not very useful)
 nnoremap <c-g> 1<c-g>
 
-" Ctrl-h: Move word back. Consistent with zsh
-"noremap <c-h> b
-"inoremap <c-h> <c-o>b
-
-" Ctrl-l: Move word forward. Consistent with zsh
-"noremap <c-l> w
-"inoremap <c-l> <c-o>w
-
 " Ctrl-x: Cycle through the splits. I don't ever use enough splits to justify
 " wasting 4 very easy to hit keys for them.
 nnoremap <c-x> <c-w>w
-
-" Ctrl-n: Go (b)ack. Go to previously buffer
-nnoremap <c-n> <c-^>
 
 " Quick scratch buffer
 nnoremap <leader>8 :Scratch<CR>
@@ -576,7 +528,7 @@ nnoremap <leader>8 :Scratch<CR>
 " yourself to use C-[, this is just here in case you screw up once.
 imap <C-]> <Esc>
 vmap <C-]> <Esc> 
- 
+
 " Fix annoying surround.vim message
 vmap s S
 
@@ -611,36 +563,15 @@ vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
 " Ctrl-s: Easier substitue
 vnoremap <c-s> :s/\%V//g<left><left><left>
 
-" Space-=: Resize windows
-nnoremap <space>= <c-w>=
-
 "===============================================================================
 " Normal Mode Key Mappings
 "===============================================================================
 
-" p: Paste
-nnoremap p gp
-" \: Toggle comment
-nmap \ <Leader>c<space>
-" d: Delete into the blackhole register to not clobber the last yank
-"nnoremap d "_d
-" dd: I use this often to yank a single line, retain its original behavior
-nnoremap dd dd
-" f: Find. Also support repeating with .
-" g: Many functions
-" gp to visually select pasted text
-nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
-" c: Change into the blackhole register to not clobber the last yank
-nnoremap c "_c
-
-" v: Visual mode
-" b: Move word backward
 " n: Next, keep search matches in the middle of the window
 nnoremap n nzzzv
 
 " Search mappings: search will center on the line 
 map N Nzzv
-
 
 " Up Down Left Right resize splits
 nnoremap <up> <c-w>+
@@ -658,14 +589,6 @@ nnoremap <Tab> %
 " y: Yank and go to end of selection
 xnoremap y y`]
 
-" p: Paste in visual mode should not replace the default register with the
-" deleted text
-"xnoremap p "_dP
-
-" d: Delete into the blackhole register to not clobber the last yank. To 'cut',
-" use 'x' instead
-"xnoremap d "_d
-
 " Backspace: Delete selected and go into insert mode
 xnoremap <bs> c
 
@@ -673,18 +596,24 @@ xnoremap <bs> c
 xnoremap < <gv
 xnoremap > >gv
 
-" .: repeats the last command on every line
-xnoremap . :normal.<cr>
-
-" @: repeats macro on every line
-xnoremap @ :normal@
-
 " Tab: Indent
 xmap <Tab> >
 
 " shift-tab: unindent
 xmap <s-tab> <
 
+" fast exit
+nmap __ :qa<CR>
+
+" <Leader>``: Force quit all
+nnoremap <Leader>`` :qa!<cr>
+
+
+
+
+"===============================================================================
+" *************** Plugins *****************************
+"===============================================================================
 
 " Make sure we don't syntax check when a file is open as doing so might lead
 " to vulnerabilities or performance issues.
@@ -711,13 +640,6 @@ nmap ga <Plug>(EasyAlign)
 nnoremap cc :TComment<CR> 
 vnoremap cc :TCommentBlock<CR> 
 
-" fast exit
-nmap __ :qa<CR>
-
-"===============================================================================
-" *************** Plugins *****************************
-"===============================================================================
-
 " NERD Tree Plugin Settings "{{{
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
@@ -732,10 +654,6 @@ nmap <silent> <F7> :NERDTreeToggle<CR>
 
 " Shift-Tab: NERDTree
 nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
-
-" Close vim if the only window open is nerdtree
-autocmd MyAutoCmd BufEnter * 
-      \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 "}}}
 
@@ -795,6 +713,7 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=tern#Complete
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
 
 "}}}
 
@@ -861,6 +780,23 @@ endfunction
 
 "}}}
 
+
+nnoremap <leader>n :bn<cr>
+nnoremap <leader>p :bp<cr>
+nnoremap <leader>d :bd<cr>
+nnoremap <c-h> :b#<cr>
+
+
+autocmd BufRead *.txt set tw=80                                         " limit width to n cols for txt files
+autocmd BufRead ~/.mutt/temp/mutt-* set tw=80 ft=mail nocindent spell   " width, mail syntax hilight, spellcheck
+autocmd FileType html setlocal shiftwidth=2 tabstop=2
+autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4 makeprg=python\ %
+autocmd FileType c,cpp,h set shiftwidth=8 softtabstop=8 noexpandtab tabstop=8 makeprg=make
+autocmd FileType ruby set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
+autocmd FileType sh set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=./%
+autocmd FileType perl set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=perl\ %
+autocmd FileType java set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=javac\ %
+autocmd FileType lua set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=lua\ %
 
 
  " vim: set foldenable foldmethod=marker foldlevel=0:

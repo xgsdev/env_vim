@@ -33,7 +33,7 @@ leader-8
 
     Press + to expand the visual selection and _ to shrink it.
 
-### easy align
+## easy align
 
 try these commands:
 
@@ -47,4 +47,9 @@ try these commands:
 
 or
     ga2j only two below
+
+## Multiple Cursors 
+
+Out of the box, all you need to know is a single key Ctrl-n in visual mode
+
 
