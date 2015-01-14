@@ -496,7 +496,7 @@ nnoremap q <nop>
 " stop EX mode
 nnoremap Q <nop>
 
-higlight Pmenu guifg=\#000000 guibg=\#F8F8F8 ctermfg=black ctermbg=Lightgray
+hi Pmenu guifg=\#000000 guibg=\#F8F8F8 ctermfg=black ctermbg=Lightgray
 "highlight PmenuSel       ctermfg=4 ctermbg=7 guifg=LightBlue
 
 " U: Redos since 'u' undos
