@@ -379,7 +379,8 @@ set t_Co=256
 map <leader>g :vimgrep // **/* <left><left><left><left><left><left><left>
 "
 " open ag.vim
-nnoremap <leader>a :Ag -i   **/*<left><left><left><left><left><left>
+nnoremap <leader>a :Ag -i   <left><left>
+nnoremap <leader>A :LAg -i   <left><left>
 
 let g:agprg='ag --column'
 
