@@ -42,8 +42,38 @@ set smartcase
 map j gj
 map k gk
 
+" Smart way to move between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" disable arrow keys
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
+imap <up> <nop>
+imap <down> <nop>
+imap <left> <nop>
+imap <right> <nop>
+
 "clearing highlighted search
 nmap <silent> <leader><cr> :nohlsearch<CR>
+
+" global search no by default :%s/foo/bar/
+set gdefault
+
+" open ag.vim
+nnoremap <leader>a :Ag -i   <left><left>
+nnoremap <leader>A :LAg -i   <left><left>
+
+let g:agprg='ag --column'
+
+"Search and replace using quickfix list in Vim
+":Ggrep findme
+":Qargs | argdo %s/findme/replacement/gc | update
+nnoremap <Leader>9 :Qargs 
 
 "}}}
 
@@ -243,6 +273,15 @@ set foldmethod=indent
 "ttimeout allow timing out halfway into a key code
 set timeout timeoutlen=500 ttimeoutlen=1
 
+" viminfo
+" Tell vim to remember certain things when we exit
+"  '30  :  marks will be remembered for up to 10 previously edited files
+"  "100 :  will save up to 100 lines for each register
+"  :20  :  up to 20 lines of command-line history will be remembered
+"  %    :  saves and restores the buffer list
+set viminfo='30,\"100,:20,%
+
+
 "}}}
 
 "***reading and writing files"{{{
@@ -325,38 +364,15 @@ set encoding=utf8
 
 "}}}
 
-"***various
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" global search no by default :%s/foo/bar/
-set gdefault
-
-" viminfo
-" Tell vim to remember certain things when we exit
-"  '30  :  marks will be remembered for up to 10 previously edited files
-"  "100 :  will save up to 100 lines for each register
-"  :20  :  up to 20 lines of command-line history will be remembered
-"  %    :  saves and restores the buffer list
-set viminfo='30,\"100,:20,%
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " => General
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nopaste
 set pastetoggle=<F2>
 
 " Making it so ; works like : for commands. Saves typing and eliminates :W style typos due to lazy holding shift.
 nnoremap ; :
 
-" Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 colorscheme molokai
 
 " Set extra options when running in GUI mode
@@ -373,23 +389,6 @@ endif
 set t_Co=256
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vimgrep searching and cope displaying
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Open vimgrep and put the cursor in the right position
-map <leader>g :vimgrep // **/* <left><left><left><left><left><left><left>
-"
-" open ag.vim
-nnoremap <leader>a :Ag -i   <left><left>
-nnoremap <leader>A :LAg -i   <left><left>
-
-let g:agprg='ag --column'
-
-"Search and replace using quickfix list in Vim
-":Ggrep findme
-":Qargs | argdo %s/findme/replacement/gc | update
-nnoremap <Leader>9 :Qargs 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "easy brackets
@@ -399,7 +398,6 @@ imap <C-c> <CR><Esc>O
 " nnoremap / /\v
 " vnoremap / /\v
 
-" General settings
 
 set clipboard=unnamed    " yank to X clipboard
 
@@ -418,9 +416,6 @@ nnoremap <leader>z :%s#\<<C-r>=expand("<cword>")<CR>\>#
 " Fast saving nmap <leader>w :w!<cr> 
 nmap <leader>w :w!<cr> 
 
-nnoremap <tab> %
-vnoremap <tab> %
-
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
@@ -437,16 +432,6 @@ endfunction
 
 " For programming languages using a semi colon at the end of statement.
 autocmd FileType c,cpp,css,java,javascript,perl,php nmap <silent><C-\> :call <SID>appendSemiColon()<cr>
-
-" disable arrow keys
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
-imap <up> <nop>
-imap <down> <nop>
-imap <left> <nop>
-imap <right> <nop>
 
 " use these to escape in insert more
 imap jk <Esc>
@@ -570,10 +555,10 @@ nnoremap <left> <c-w><
 nnoremap <right> <c-w>>
 
 " Tab: Go to matching element
-nnoremap <Tab> %
+nnoremap <tab> %
+vnoremap <tab> %
 
-"===============================================================================
-" Visual Mode Key Mappings
+" Visual Mode Key Mappings - x = visual only
 "===============================================================================
 
 " y: Yank and go to end of selection
@@ -592,6 +577,16 @@ xmap <Tab> >
 " shift-tab: unindent
 xmap <s-tab> <
 
+
+
+
+
+
+
+
+
+
+
 " fast exit
 nmap __ :qa<CR>
 
@@ -600,10 +595,45 @@ nnoremap <Leader>`` :qa!<cr>
 
 
 
+" Autocommands "{{{
 
-"===============================================================================
-" *************** Plugins *****************************
-"===============================================================================
+augroup allFiles
+    autocmd!
+    " Return to last edit position when opening files (You want this!)
+    autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \   exe "normal! g`\"" |
+        \ endif
+
+    autocmd BufRead *.txt set tw=80                                         " limit width to n cols for txt files
+    autocmd BufRead ~/.mutt/temp/mutt-* set tw=80 ft=mail nocindent spell   " width, mail syntax hilight, spellcheck
+    autocmd FileType html setlocal shiftwidth=2 tabstop=2
+    autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4 makeprg=python\ %
+    autocmd FileType c,cpp,h set shiftwidth=8 softtabstop=8 noexpandtab tabstop=8 makeprg=make
+    autocmd FileType ruby set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
+    autocmd FileType sh set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=./%
+    autocmd FileType perl set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=perl\ %
+    autocmd FileType java set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=javac\ %
+    autocmd FileType lua set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=lua\ %
+augroup END
+
+" neocomplete autocmd - Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType javascript setlocal omnifunc=tern#Complete
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+"}}}
+
+" Plugins - General "{{{
+
+" Turn rainbow parenthesis script on
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
 " Make sure we don't syntax check when a file is open as doing so might lead
 " to vulnerabilities or performance issues.
@@ -615,12 +645,6 @@ let g:syntastic_auto_loc_list=1
 " Default only to 5 lines instead of 10 (better when in the terminal)
 let g:syntastic_loc_list_height = 5
 
-" Turn rainbow parenthesis script on
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
 
@@ -629,6 +653,8 @@ nmap ga <Plug>(EasyAlign)
 
 nnoremap cc :TComment<CR> 
 vnoremap cc :TCommentBlock<CR> 
+
+"}}}
 
 " NERD Tree Plugin Settings "{{{
 let NERDTreeMinimalUI = 1
@@ -754,42 +780,6 @@ nnoremap <leader>n :bn<cr>
 nnoremap <leader>p :bp<cr>
 nnoremap <leader>d :bd<cr>
 nnoremap <c-h> :b#<cr>
-
-
-" Autocommands "{{{
-
-augroup allFiles
-    autocmd!
-    " Return to last edit position when opening files (You want this!)
-    autocmd BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \   exe "normal! g`\"" |
-        \ endif
-
-    autocmd BufRead *.txt set tw=80                                         " limit width to n cols for txt files
-    autocmd BufRead ~/.mutt/temp/mutt-* set tw=80 ft=mail nocindent spell   " width, mail syntax hilight, spellcheck
-    autocmd FileType html setlocal shiftwidth=2 tabstop=2
-    autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4 makeprg=python\ %
-    autocmd FileType c,cpp,h set shiftwidth=8 softtabstop=8 noexpandtab tabstop=8 makeprg=make
-    autocmd FileType ruby set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
-    autocmd FileType sh set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=./%
-    autocmd FileType perl set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=perl\ %
-    autocmd FileType java set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=javac\ %
-    autocmd FileType lua set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=lua\ %
-augroup END
-
-" neocomplete autocmd - Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType javascript setlocal omnifunc=tern#Complete
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-"}}}
-
-
-
 
 
 
