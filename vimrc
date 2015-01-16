@@ -42,12 +42,6 @@ set smartcase
 map j gj
 map k gk
 
-" Return to last edit position when opening files (You want this!)
-autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
-
 "clearing highlighted search
 nmap <silent> <leader><cr> :nohlsearch<CR>
 
@@ -412,11 +406,6 @@ set clipboard=unnamed    " yank to X clipboard
 nnoremap <C-e> 2<C-e>
 nnoremap <C-y> 2<C-y>
 
-" Remove ALL autocommands to prevent them from being loaded twice
-if has('autocmd')
-  autocmd!
-endif
-
 " C-a to select all
 nnoremap <C-a> ggVG
 inoremap <C-a> ggVG
@@ -706,15 +695,6 @@ inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><s-CR> pumvisible() ? neocomplete#close_popup()"\<CR>" : "\<CR>"
 " inoremap <expr><CR> pumvisible() ? neocomplete#close_popup() : "\<CR>"
 
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType javascript setlocal omnifunc=tern#Complete
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-
 "}}}
 
 " neosnippet plugin "{{{
@@ -767,19 +747,7 @@ nnoremap <leader>/ :<C-u>Unite -buffer-name=search grep:.<cr>
 " nnoremap /  :Unite line<cr>
 
 
-" Custom mappings for the unite buffer
-autocmd FileType unite call s:unite_settings()
-function! s:unite_settings()
-  " Enable navigation with control-j and control-k in insert mode
-  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-endfunction
-
-
-
-
 "}}}
-
 
 nnoremap <leader>n :bn<cr>
 nnoremap <leader>p :bp<cr>
@@ -787,16 +755,41 @@ nnoremap <leader>d :bd<cr>
 nnoremap <c-h> :b#<cr>
 
 
-autocmd BufRead *.txt set tw=80                                         " limit width to n cols for txt files
-autocmd BufRead ~/.mutt/temp/mutt-* set tw=80 ft=mail nocindent spell   " width, mail syntax hilight, spellcheck
-autocmd FileType html setlocal shiftwidth=2 tabstop=2
-autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4 makeprg=python\ %
-autocmd FileType c,cpp,h set shiftwidth=8 softtabstop=8 noexpandtab tabstop=8 makeprg=make
-autocmd FileType ruby set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
-autocmd FileType sh set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=./%
-autocmd FileType perl set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=perl\ %
-autocmd FileType java set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=javac\ %
-autocmd FileType lua set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=lua\ %
+" Autocommands "{{{
+
+augroup allFiles
+    autocmd!
+    " Return to last edit position when opening files (You want this!)
+    autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \   exe "normal! g`\"" |
+        \ endif
+
+    autocmd BufRead *.txt set tw=80                                         " limit width to n cols for txt files
+    autocmd BufRead ~/.mutt/temp/mutt-* set tw=80 ft=mail nocindent spell   " width, mail syntax hilight, spellcheck
+    autocmd FileType html setlocal shiftwidth=2 tabstop=2
+    autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4 makeprg=python\ %
+    autocmd FileType c,cpp,h set shiftwidth=8 softtabstop=8 noexpandtab tabstop=8 makeprg=make
+    autocmd FileType ruby set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
+    autocmd FileType sh set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=./%
+    autocmd FileType perl set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=perl\ %
+    autocmd FileType java set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=javac\ %
+    autocmd FileType lua set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=lua\ %
+augroup END
+
+" neocomplete autocmd - Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType javascript setlocal omnifunc=tern#Complete
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+"}}}
+
+
+
+
 
 
  " vim: set foldenable foldmethod=marker foldlevel=0:
