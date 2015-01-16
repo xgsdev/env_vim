@@ -58,8 +58,16 @@ imap <down> <nop>
 imap <left> <nop>
 imap <right> <nop>
 
+" Speed up scrolling of the viewport slightly
+nnoremap <C-e> 2<C-e>
+nnoremap <C-y> 2<C-y>
+
 "clearing highlighted search
 nmap <silent> <leader><cr> :nohlsearch<CR>
+
+" turns off Vim crazy default regex 
+" nnoremap / /\v
+" vnoremap / /\v
 
 " global search no by default :%s/foo/bar/
 set gdefault
@@ -388,37 +396,19 @@ endif
 " 256bit terminal
 set t_Co=256
 
+hi Pmenu guifg=\#000000 guibg=\#F8F8F8 ctermfg=black ctermbg=Lightgray
+"highlight PmenuSel       ctermfg=4 ctermbg=7 guifg=LightBlue
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"easy brackets
-imap <C-c> <CR><Esc>O
-
-" turns off Vim crazy default regex 
-" nnoremap / /\v
-" vnoremap / /\v
-
 
 set clipboard=unnamed    " yank to X clipboard
 
-" Speed up scrolling of the viewport slightly
-nnoremap <C-e> 2<C-e>
-nnoremap <C-y> 2<C-y>
-
-" C-a to select all
-nnoremap <C-a> ggVG
-inoremap <C-a> ggVG
 
 " Pull word under cursor into LHS of a substitute (for quick search and
 " replace)
 nnoremap <leader>z :%s#\<<C-r>=expand("<cword>")<CR>\>#
-
-" Fast saving nmap <leader>w :w!<cr> 
-nmap <leader>w :w!<cr> 
-
-inoremap <F1> <ESC>
-nnoremap <F1> <ESC>
-vnoremap <F1> <ESC>
 
 " Auto semi colon 
 " If there isn't one, append a semi colon to the end of the current line.
@@ -433,11 +423,7 @@ endfunction
 " For programming languages using a semi colon at the end of statement.
 autocmd FileType c,cpp,css,java,javascript,perl,php nmap <silent><C-\> :call <SID>appendSemiColon()<cr>
 
-" use these to escape in insert more
-imap jk <Esc>
-imap kj <Esc>
-
-" timesavers - shift key fixes
+" timesavers "{{{
 cmap W w
 cmap WQ wq
 cmap wQ wq
@@ -446,33 +432,25 @@ cmap Q q
 " Yank smart, to be consistent with C and D
 nnoremap Y y$
 
-" timestamp
-nmap <F4> a<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>
-imap <F4> <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR>
-" template 
-nmap <F5> a<C-R> ---<CR>USERNAME: <CR>COMMENTS: <CR><Esc>
-imap <F5> <C-R> ---<CR>USERNAME: <CR>COMMENTS: <CR>
+" Fast saving nmap <leader>w :w!<cr> 
+nmap <leader>w :w!<cr> 
 
-" fugitive always opens 3 buffers, left identified by //2 and right identified
-" by //3
-nmap <leader>dgl :diffget //2 \| :diffupdate<CR>
-nmap <leader>dgr :diffget //3 \| :diffupdate<CR>
+inoremap <F1> <ESC>
+nnoremap <F1> <ESC>
+vnoremap <F1> <ESC>
 
- " Use local vimrc if available {
-if filereadable(glob("~/.xgs/vimrc-local")) 
-    source ~/.xgs/vimrc-local
-endif
+" use these to escape in insert more
+imap jk <Esc>
+imap kj <Esc>
 
-nnoremap <Leader>v :vsplit
-nnoremap <Leader>s :split
+" C-a to select all
+nnoremap <C-a> ggVG
+inoremap <C-a> ggVG
 
 " stop recording
 nnoremap q <nop>
 " stop EX mode
 nnoremap Q <nop>
-
-hi Pmenu guifg=\#000000 guibg=\#F8F8F8 ctermfg=black ctermbg=Lightgray
-"highlight PmenuSel       ctermfg=4 ctermbg=7 guifg=LightBlue
 
 " U: Redos since 'u' undos
 nnoremap U :redo<cr>
@@ -481,6 +459,24 @@ nnoremap U :redo<cr>
 noremap H ^
 
 noremap L g_
+
+"}}}
+
+
+" timestamp
+nmap <F4> a<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>
+imap <F4> <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR>
+" template 
+nmap <F5> a<C-R> ---<CR>USERNAME: <CR>COMMENTS: <CR><Esc>
+imap <F5> <C-R> ---<CR>USERNAME: <CR>COMMENTS: <CR>
+
+ " Use local vimrc if available {
+if filereadable(glob("~/.xgs/vimrc-local")) 
+    source ~/.xgs/vimrc-local
+endif
+
+nnoremap <Leader>v :vsplit
+nnoremap <Leader>s :split
 
 " Ctrl-sr: Easier (s)earch and (r)eplace
 nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
@@ -654,6 +650,11 @@ nmap ga <Plug>(EasyAlign)
 nnoremap cc :TComment<CR> 
 vnoremap cc :TCommentBlock<CR> 
 
+" fugitive always opens 3 buffers, left identified by //2 and right identified
+" by //3
+nmap <leader>dgl :diffget //2 \| :diffupdate<CR>
+nmap <leader>dgr :diffget //3 \| :diffupdate<CR>
+
 "}}}
 
 " NERD Tree Plugin Settings "{{{
@@ -778,8 +779,9 @@ nnoremap <leader>/ :<C-u>Unite -buffer-name=search grep:.<cr>
 
 nnoremap <leader>n :bn<cr>
 nnoremap <leader>p :bp<cr>
-nnoremap <leader>d :bd<cr>
+nnoremap <leader>d :Bdelete<cr>
 nnoremap <c-h> :b#<cr>
+noremap <leader>x :close<cr>
 
 
 
