@@ -475,8 +475,8 @@ if filereadable(glob("~/.xgs/vimrc-local"))
     source ~/.xgs/vimrc-local
 endif
 
-nnoremap <Leader>v :vsplit
-nnoremap <Leader>s :split
+nnoremap <Leader>v :vsplit<cr>
+nnoremap <Leader>s :split<cr>
 
 " Ctrl-sr: Easier (s)earch and (r)eplace
 nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
@@ -489,7 +489,7 @@ nnoremap <c-g> 1<c-g>
 
 " Ctrl-x: Cycle through the splits. I don't ever use enough splits to justify
 " wasting 4 very easy to hit keys for them.
-nnoremap <c-x> <c-w>w
+nnoremap <c-j> <c-w>w
 
 " Quick scratch buffer
 nnoremap <leader>8 :Scratch<CR>
@@ -780,9 +780,14 @@ nnoremap <leader>/ :<C-u>Unite -buffer-name=search grep:.<cr>
 nnoremap <leader>n :bn<cr>
 nnoremap <leader>p :bp<cr>
 nnoremap <leader>d :Bdelete<cr>
+
 nnoremap <c-h> :b#<cr>
 noremap <leader>x :close<cr>
 
 
+nnoremap gO :<C-u>Unite session/new -start-insert -buffer-name=session<CR>
+nnoremap go :<C-u>Unite session -start-insert -buffer-name=session<CR>
+let g:unite_source_session_options="buffers,splits,curdir,folds,tabpages,winsize"
+let g:unite_source_session_enable_auto_save = 1
 
  " vim: set foldenable foldmethod=marker foldlevel=0:

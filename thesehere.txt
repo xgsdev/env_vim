@@ -1,9 +1,4 @@
 
-neocomplete.vim
-
-neosnippet.vim
-vim-snippets
-
 
 unite.vim
 unite-session
@@ -29,3 +24,7 @@ scratch.vim
 rainbow_parentheses.vim
 vim-indent-guides
 vim-easy-align
+neocomplete.vim
+neosnippet.vim
+vim-snippets
+
