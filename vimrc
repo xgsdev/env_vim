@@ -757,37 +757,47 @@ call unite#filters#matcher_default#use(['matcher_fuzzy'])
 " nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
 " nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files   -start-insert file<cr>
 
-nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files file_rec/async:!<cr>
-nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files file<cr>
+nnoremap <leader>t :<C-u>Unite -no-split -start-insert -buffer-name=files file_rec/async:!<cr>
+nnoremap <leader>f :<C-u>Unite -no-split -start-insert -buffer-name=files file<cr>
+nnoremap <leader>b :<C-u>Unite -no-split -start-insert -buffer-name=buffers buffer -quick-match<CR>
+nnoremap <leader>e :<C-u>Unite -no-split -start-insert -buffer-name=buffer  buffer<cr>
 
 nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank    history/yank<cr>
 
-nnoremap <leader>b :<C-u>Unite -no-split -buffer-name=buffers buffer -quick-match<CR>
-nnoremap <leader>e :<C-u>Unite -no-split -buffer-name=buffer  buffer<cr>
-
-
- let g:unite_source_grep_command='ag'
+let g:unite_source_grep_command='ag'
 let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4'
 let g:unite_source_grep_recursive_opt=''
 
 " nnoremap <leader>/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
 nnoremap <leader>/ :<C-u>Unite -buffer-name=search grep:.<cr>
-" nnoremap /  :Unite line<cr>
 
+" Custom mappings for the unite buffer
+autocmd FileType unite call s:unite_settings()
+function! s:unite_settings()
+  " Enable navigation with control-j and control-k in insert mode
+  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+  imap <buffer> jk <C-g> 
+endfunction
 
 "}}}
 
 nnoremap <leader>n :bn<cr>
 nnoremap <leader>p :bp<cr>
 nnoremap <leader>d :Bdelete<cr>
-
 nnoremap <c-h> :b#<cr>
 noremap <leader>x :close<cr>
 
+" sessions
+set ssop=buffers,curdir,folds,tabpages,winsize
+set ssop-=options    " do not store global and local values in a session
 
-nnoremap gO :<C-u>Unite session/new -start-insert -buffer-name=session<CR>
+nnoremap gn :<C-u>Unite session/new -start-insert -buffer-name=session<CR>
 nnoremap go :<C-u>Unite session -start-insert -buffer-name=session<CR>
-let g:unite_source_session_options="buffers,splits,curdir,folds,tabpages,winsize"
+let g:unite_source_session_options="buffers,curdir,folds,tabpages,winsize"
 let g:unite_source_session_enable_auto_save = 1
+
+
+
 
  " vim: set foldenable foldmethod=marker foldlevel=0:
