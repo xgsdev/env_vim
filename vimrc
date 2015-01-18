@@ -83,6 +83,13 @@ let g:agprg='ag --column'
 ":Qargs | argdo %s/findme/replacement/gc | update
 nnoremap <Leader>9 :Qargs 
 
+" Pull word under cursor into LHS of a substitute (for quick search and
+" replace)
+nnoremap <leader>z :%s#\<<C-r>=expand("<cword>")<CR>\>#
+
+" Ctrl-sr: Easier (s)earch and (r)eplace
+nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
+
 "}}}
 
 "***displaying text"{{{
@@ -177,6 +184,8 @@ set titlelen=85
 
 set mouse=a              " enable mouse
 
+set clipboard=unnamed    " yank to X clipboard
+
 "}}}
 
 "***messages and info"{{{
@@ -199,6 +208,9 @@ set visualbell "No sounds
 
 "***editing text"{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set nopaste
+set pastetoggle=<F2>
 
 set textwidth=500
 
@@ -227,7 +239,7 @@ set matchtime=2
 
 "}}}
 
-"***tabs and indenting"{{{
+"***tabs and indenting and splits "{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Use spaces instead of tabs
@@ -253,6 +265,10 @@ set smartindent
 " copy the previous indentation on autoindenting
 "copy whitespace for indenting from previous line
 set copyindent
+
+" quick split window
+nnoremap <Leader>v :vsplit<cr>
+nnoremap <Leader>s :split<cr>
 
 "}}}
 
@@ -353,6 +369,11 @@ set wildignore+=*.png,*.jpg,*.gif
 set wildignore+=*.so,*.swp,*.zip,*/.Trash/**,*.pdf,*.dmg,*/Library/**,*/.rbenv/**
 set wildignore+=*/.nx/**,*.app
 
+ " Use local vimrc if available {
+if filereadable(glob("~/.xgs/vimrc-local")) 
+    source ~/.xgs/vimrc-local
+endif
+
 "}}}
 
 "***running make and jumping to errors"{{{
@@ -372,15 +393,7 @@ set encoding=utf8
 
 "}}}
 
-
-" => General
-set nopaste
-set pastetoggle=<F2>
-
-" Making it so ; works like : for commands. Saves typing and eliminates :W style typos due to lazy holding shift.
-nnoremap ; :
-
-" => Colors and Fonts
+" Colors and Fonts "{{{
 colorscheme molokai
 
 " Set extra options when running in GUI mode
@@ -399,35 +412,28 @@ set t_Co=256
 hi Pmenu guifg=\#000000 guibg=\#F8F8F8 ctermfg=black ctermbg=Lightgray
 "highlight PmenuSel       ctermfg=4 ctermbg=7 guifg=LightBlue
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Misc
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"}}}
 
-set clipboard=unnamed    " yank to X clipboard
+" Sessions "{{{
 
+set ssop=buffers,curdir,folds,tabpages,winsize
+set ssop-=options    " do not store global and local values in a session
 
-" Pull word under cursor into LHS of a substitute (for quick search and
-" replace)
-nnoremap <leader>z :%s#\<<C-r>=expand("<cword>")<CR>\>#
+nnoremap gn :<C-u>Unite session/new -start-insert -buffer-name=session<CR>
+nnoremap go :<C-u>Unite session -start-insert -buffer-name=session<CR>
+let g:unite_source_session_options="buffers,curdir,folds,tabpages,winsize"
+let g:unite_source_session_enable_auto_save = 1
 
-" Auto semi colon 
-" If there isn't one, append a semi colon to the end of the current line.
-function s:appendSemiColon()
-    if getline('.') !~ ';$'
-        let original_cursor_position = getpos('.')
-        exec("s/$/;/")
-        call setpos('.', original_cursor_position)
-    endif
-endfunction
+"}}}
 
-" For programming languages using a semi colon at the end of statement.
-autocmd FileType c,cpp,css,java,javascript,perl,php nmap <silent><C-\> :call <SID>appendSemiColon()<cr>
-
-" timesavers "{{{
+" my timesavers "{{{
 cmap W w
 cmap WQ wq
 cmap wQ wq
 cmap Q q
+
+" Making it so ; works like : for commands
+nnoremap ; :
 
 " Yank smart, to be consistent with C and D
 nnoremap Y y$
@@ -442,6 +448,12 @@ vnoremap <F1> <ESC>
 " use these to escape in insert more
 imap jk <Esc>
 imap kj <Esc>
+
+" So both C-[ and C-] are equivalent to <Esc> (widen the target area)
+" Note that in normal mode, C-] means follow link, so you should train 
+" yourself to use C-[, this is just here in case you screw up once.
+imap <C-]> <Esc>
+vmap <C-]> <Esc> 
 
 " C-a to select all
 nnoremap <C-a> ggVG
@@ -462,80 +474,56 @@ noremap L g_
 
 "}}}
 
+" my templates "{{{
 
-" timestamp
 nmap <F4> a<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>
 imap <F4> <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR>
 " template 
 nmap <F5> a<C-R> ---<CR>USERNAME: <CR>COMMENTS: <CR><Esc>
 imap <F5> <C-R> ---<CR>USERNAME: <CR>COMMENTS: <CR>
 
- " Use local vimrc if available {
-if filereadable(glob("~/.xgs/vimrc-local")) 
-    source ~/.xgs/vimrc-local
-endif
+"}}}
 
-nnoremap <Leader>v :vsplit<cr>
-nnoremap <Leader>s :split<cr>
+" my useful mappings "{{{
 
-" Ctrl-sr: Easier (s)earch and (r)eplace
-nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
+nnoremap <leader>n :bn<cr>
+nnoremap <leader>p :bp<cr>
+nnoremap <leader>d :Bdelete<cr>
+nnoremap <c-h> :b#<cr>
+noremap <leader>x :close<cr>
+
+" fast exit
+nmap __ :qa<CR>
+
+" <Leader>``: Force quit all
+nnoremap <Leader>`` :qa!<cr>
 
 " Ctrl-sw: Quickly surround word
 nmap <c-s><c-w> ysiw
 
-" Ctrl-g: Prints current file name (TODO Not very useful)
-nnoremap <c-g> 1<c-g>
-
-" Ctrl-x: Cycle through the splits. I don't ever use enough splits to justify
-" wasting 4 very easy to hit keys for them.
-nnoremap <c-j> <c-w>w
-
-" Quick scratch buffer
-nnoremap <leader>8 :Scratch<CR>
-
-" So both C-[ and C-] are equivalent to <Esc> (widen the target area)
-" Note that in normal mode, C-] means follow link, so you should train 
-" yourself to use C-[, this is just here in case you screw up once.
-imap <C-]> <Esc>
-vmap <C-]> <Esc> 
-
 " Fix annoying surround.vim message
 vmap s S
 
-" Ctrl-e: Go to end of line
-inoremap <c-e> <esc>A
+"}}}
 
-" Ctrl-a: Go to begin of line
-inoremap <c-a> <esc>I
+" my functions "{{{
 
-" Ctrl-s: Save
-inoremap <c-s> <esc>:w<CR>
+" Auto semi colon 
+" If there isn't one, append a semi colon to the end of the current line.
+function s:appendSemiColon()
+    if getline('.') !~ ';$'
+        let original_cursor_position = getpos('.')
+        exec("s/$/;/")
+        call setpos('.', original_cursor_position)
+    endif
+endfunction
 
-" Ctrl-f: Move cursor left
-inoremap <c-f> <Left>
+" For programming languages using a semi colon at the end of statement.
+autocmd FileType c,cpp,css,java,javascript,perl,php nmap <silent><C-\> :call <SID>appendSemiColon()<cr>
 
-" Ctrl-c: Inserts line below
-inoremap <c-c> <c-o>o
+"}}}
 
-" Ctrl-v: Paste. For some reason, <c-o> is not creating an undo point in the
-" mapping
-inoremap <c-v> <c-g>u<c-o>gP
-
-" Ctrl-/: Undo
-inoremap <c-_> <c-o>u
-
-" Ctrl-c: Copy (works with system clipboard due to clipboard setting)
-vnoremap <c-c> y`]
-
-" Ctrl-r: Easier search and replace
-vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
-
-" Ctrl-s: Easier substitue
-vnoremap <c-s> :s/\%V//g<left><left><left>
-
-"===============================================================================
-" Normal Mode Key Mappings
+" Normal Mode Key Mappings "{{{
 "===============================================================================
 
 " n: Next, keep search matches in the middle of the window
@@ -554,8 +542,42 @@ nnoremap <right> <c-w>>
 nnoremap <tab> %
 vnoremap <tab> %
 
-" Visual Mode Key Mappings - x = visual only
+" Ctrl-g: Prints current file name (TODO Not very useful)
+nnoremap <c-g> 1<c-g>
+
+" Ctrl-x: Cycle through the splits. I don't ever use enough splits to justify
+" wasting 4 very easy to hit keys for them.
+nnoremap <c-j> <c-w>w
+
+" Quick scratch buffer
+nnoremap <leader>8 :Scratch<CR>
+
+"}}}
+
+" Insert Mode Key Mappings"{{{
 "===============================================================================
+
+" Ctrl-e: Go to end of line
+inoremap <c-e> <esc>A
+
+" Ctrl-a: Go to begin of line
+inoremap <c-a> <esc>I
+
+" Ctrl-f: Move cursor left
+inoremap <c-f> <Left>
+
+" Ctrl-c: Inserts line below
+inoremap <c-c> <c-o>o
+
+" Ctrl-v: Paste. For some reason, <c-o> is not creating an undo point in the
+" mapping
+inoremap <c-v> <c-g>u<c-o>gP
+
+"}}}
+
+" Visual Mode Key Mappings "{{{
+"===============================================================================
+"x = visual only
 
 " y: Yank and go to end of selection
 xnoremap y y`]
@@ -573,23 +595,16 @@ xmap <Tab> >
 " shift-tab: unindent
 xmap <s-tab> <
 
+" Ctrl-c: Copy (works with system clipboard due to clipboard setting)
+vnoremap <c-c> y`]
 
+" Ctrl-r: Easier search and replace
+vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
 
+" Ctrl-s: Easier substitue
+vnoremap <c-s> :s/\%V//g<left><left><left>
 
-
-
-
-
-
-
-
-" fast exit
-nmap __ :qa<CR>
-
-" <Leader>``: Force quit all
-nnoremap <Leader>`` :qa!<cr>
-
-
+"}}}
 
 " Autocommands "{{{
 
@@ -674,7 +689,7 @@ nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
 
 "}}}
 
-" neocomplete plugin "{{{
+" Neocomplete plugin "{{{
 
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
@@ -725,7 +740,7 @@ inoremap <expr><s-CR> pumvisible() ? neocomplete#close_popup()"\<CR>" : "\<CR>"
 
 "}}}
 
-" neosnippet plugin "{{{
+" Neosnippet plugin "{{{
 
 " deactivate neosnippet
 let g:neosnippet#disable_runtime_snippets = { 'c' : 1, 'cpp' : 1, }
@@ -781,23 +796,6 @@ function! s:unite_settings()
 endfunction
 
 "}}}
-
-nnoremap <leader>n :bn<cr>
-nnoremap <leader>p :bp<cr>
-nnoremap <leader>d :Bdelete<cr>
-nnoremap <c-h> :b#<cr>
-noremap <leader>x :close<cr>
-
-" sessions
-set ssop=buffers,curdir,folds,tabpages,winsize
-set ssop-=options    " do not store global and local values in a session
-
-nnoremap gn :<C-u>Unite session/new -start-insert -buffer-name=session<CR>
-nnoremap go :<C-u>Unite session -start-insert -buffer-name=session<CR>
-let g:unite_source_session_options="buffers,curdir,folds,tabpages,winsize"
-let g:unite_source_session_enable_auto_save = 1
-
-
 
 
  " vim: set foldenable foldmethod=marker foldlevel=0:
