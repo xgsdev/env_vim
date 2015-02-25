@@ -151,8 +151,6 @@ set cursorline                  " highlight current line
 hi cursorline guibg=\#333333     " highlight bg color of current line
 hi CursorColumn guibg=\#333333   " highlight cursor
 
-set colorcolumn=85
-
 set nospell
 
 "}}}
@@ -394,7 +392,7 @@ set encoding=utf8
 "}}}
 
 " Colors and Fonts "{{{
-colorscheme murphy
+colorscheme elflord
 
 " Set extra options when running in GUI mode
 if has("gui_running")
