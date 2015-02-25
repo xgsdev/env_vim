@@ -6,6 +6,7 @@ echo "start"
 #angular-vim-snippets
 
 standard=( \
+    "https://github.com/Shougo/unite.vim.git" \
     "https://github.com/Shougo/neocomplete.vim.git" \
     "https://github.com/Shougo/neosnippet.vim.git" \
     "https://github.com/honza/vim-snippets.git" \
