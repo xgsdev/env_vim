@@ -42,11 +42,14 @@ set smartcase
 map j gj
 map k gk
 
-" Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+" Smart home row
+" Ctrl-j: Cycle through the splits. 
+nnoremap <c-j> <c-w>w
+" map <C-k> <C-W>k  -- system clipboard paste
+" cycle buffers 
+nnoremap <silent> <c-h> :bn<CR>
+" cycle tabs 
+nnoremap <silent> <c-l> :tabn<CR>
 
 " disable arrow keys
 map <up> <nop>
@@ -83,12 +86,8 @@ let g:agprg='ag --column'
 ":Qargs | argdo %s/findme/replacement/gc | update
 nnoremap <Leader>9 :Qargs 
 
-" Pull word under cursor into LHS of a substitute (for quick search and
-" replace)
-nnoremap <leader>z :%s#\<<C-r>=expand("<cword>")<CR>\>#
-
 " Ctrl-sr: Easier (s)earch and (r)eplace
-nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
+nnoremap <leader>r :%s/<c-r><c-w>//gc<left><left><left>
 
 "}}}
 
@@ -268,6 +267,12 @@ set copyindent
 nnoremap <Leader>v :vsplit<cr>
 nnoremap <Leader>s :split<cr>
 
+" Go to tab by number
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+
 "}}}
 
 "***folding"{{{
@@ -419,7 +424,7 @@ cmap wQ wq
 cmap Q q
 
 " Making it so ; works like : for commands
-nnoremap ; :
+" nnoremap ; :
 
 " Yank smart, to be consistent with C and D
 nnoremap Y y$
@@ -475,7 +480,6 @@ imap <F5> <C-R> ---<CR>USERNAME: <CR>COMMENTS: <CR>
 nnoremap <leader>n :bn<cr>
 nnoremap <leader>p :bp<cr>
 nnoremap <leader>d :Bdelete<cr>
-nnoremap <c-h> :b#<cr>
 noremap <leader>x :close<cr>
 
 " fast exit
@@ -530,10 +534,6 @@ vnoremap <tab> %
 
 " Ctrl-g: Prints current file name (TODO Not very useful)
 nnoremap <c-g> 1<c-g>
-
-" Ctrl-x: Cycle through the splits. I don't ever use enough splits to justify
-" wasting 4 very easy to hit keys for them.
-nnoremap <c-j> <c-w>w
 
 " Quick scratch buffer
 nnoremap <leader>8 :Scratch<CR>
@@ -648,6 +648,15 @@ nmap <silent> <F7> :NERDTreeToggle<CR>
 
 " Shift-Tab: NERDTree
 nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
+
+"}}}
+
+" My latest additions "{{{
+
+nnoremap <leader>h a
+nnoremap <leader>j A
+nnoremap <cr> :
+"nnoremap <leader><bs> /
 
 "}}}
 
