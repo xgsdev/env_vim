@@ -1,0 +1,9 @@
+#!/bin/bash
+
+DIR=`pwd`
+
+head -n -1 7-firstvimrc > vimrc-2
+
+cat 7-secondvimrc >> vimrc-2
+
+echo "second is complete."

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+DIR=`pwd`
+
+cat 7-firstvimrc > vimrc-1
+
+echo "first is complete."
