@@ -121,7 +121,7 @@ set lazyredraw
 
 "set number
 "relative numbers -set rnu
-set relativenumber
+"set relativenumber
 
 " list listchars
 set list

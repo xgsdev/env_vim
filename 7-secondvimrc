@@ -2,10 +2,14 @@
 " development configurations 
 " **************************
 
-" new colors "{{{
+" new general "{{{
 set colorcolumn=85
 
 colorscheme molokai
+
+"set number
+"relative numbers -set rnu
+set relativenumber
 
 "}}}
 
