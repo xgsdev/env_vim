@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "start"
-
 # GENERAL
 standard=( \
     "https://github.com/scrooloose/nerdtree.git" \
@@ -29,6 +27,9 @@ standard=( \
     "https://github.com/milkypostman/vim-togglelist.git" \
     )
 
+TOTAL=${#standard[@]} 
+echo "start - $TOTAL plugins"
+
 # checks first to see if they exist
 for i in "${standard[@]}"
 do
@@ -50,6 +51,7 @@ BDIR=./bundle
 mkdir -p $BDIR
 cd $BDIR
 
+k=1
 # clones and removes git dir
 for i in "${standard[@]}"
 do
@@ -63,8 +65,8 @@ do
     rm -rf .git
     rm -f .gitignore
     cd ..
-    echo "done -" $i
-    
+    echo $k " - done -" $i
+    k=$[$k+1]
     sleep 1
 
 done

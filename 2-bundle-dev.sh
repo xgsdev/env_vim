@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "start"
-
 # DEVELOPMENT
 #angular-vim-snippets
 
@@ -26,6 +24,9 @@ standard=( \
     "https://github.com/marijnh/tern_for_vim.git" \
     )
 
+TOTAL=${#standard[@]} 
+echo "start - $TOTAL plugins"
+
 # checks first to see if they exist
 for i in "${standard[@]}"
 do
@@ -47,6 +48,7 @@ BDIR=./tmpbundle12
 mkdir -p $BDIR
 cd $BDIR
 
+k=1
 # clones and removes git dir
 for i in "${standard[@]}"
 do
@@ -60,7 +62,8 @@ do
     rm -rf .git
     rm -f .gitignore
     cd ..
-    echo "done -" $i
+    echo $k " - done -" $i
+    k=$[$k+1]
     
     sleep 1
 
