@@ -46,10 +46,13 @@ map k gk
 " Ctrl-j: Cycle through the splits. 
 nnoremap <c-j> <c-w>w
 " map <C-k> <C-W>k  -- system clipboard paste
-" cycle buffers 
-nnoremap <silent> <c-h> :bn<CR>
+" cycle betwen previous buffer 
+nnoremap <silent> <c-h> :b#<CR>
 " cycle tabs 
 nnoremap <silent> <c-l> :tabn<CR>
+" cycle buffers 
+nnoremap <silent> <tab> :bn<CR>
+nnoremap <silent> <s-tab> :bp<CR>
 
 " disable arrow keys
 map <up> <nop>
@@ -120,21 +123,6 @@ set cmdheight=1
 set lazyredraw
 
 "set number
-"relative numbers -set rnu
-"set relativenumber
-
-" list listchars
-set list
-
-" Display unprintable chars
-"set listchars=tab:▸\ ,eol:¬
-"set listchars=tab:>.,trail:.,extends:#,nbsp:.
-"set listchars=tab:»· 
-"set listchars+=extends:#
-"set listchars+=nbsp:.
-set listchars=eol:¬
-set listchars+=trail:· 
-set listchars+=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
 
 "}}}
 
@@ -657,6 +645,24 @@ nnoremap <leader>h a
 nnoremap <leader>j A
 nnoremap <cr> :
 "nnoremap <leader><bs> /
+
+" copy and paste to system clipboard 
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+
+" better recording
+nnoremap <leader>1 qq
+nnoremap <leader>2 q
+nnoremap Q @q
+
+" show previous commands
+nnoremap <leader>6 q:
+
+
 
 "}}}
 

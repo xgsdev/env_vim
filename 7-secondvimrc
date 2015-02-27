@@ -11,6 +11,20 @@ colorscheme molokai
 "relative numbers -set rnu
 set relativenumber
 
+" list listchars
+set list
+
+" Display unprintable chars
+"set listchars=tab:▸\ ,eol:¬
+"set listchars=tab:>.,trail:.,extends:#,nbsp:.
+"set listchars=tab:»· 
+"set listchars+=extends:#
+"set listchars+=nbsp:.
+set listchars=eol:¬
+set listchars+=trail:· 
+set listchars+=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
+
+
 "}}}
 
 " Fugitive"{{{
