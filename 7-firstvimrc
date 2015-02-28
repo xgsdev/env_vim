@@ -51,8 +51,7 @@ nnoremap <silent> <c-h> :b#<CR>
 " cycle tabs 
 nnoremap <silent> <c-l> :tabn<CR>
 " cycle buffers 
-nnoremap <silent> <tab> :bn<CR>
-nnoremap <silent> <s-tab> :bp<CR>
+nnoremap <silent> <s-tab> :bn<CR>
 
 " disable arrow keys
 map <up> <nop>
@@ -634,9 +633,6 @@ let NERDTreeIgnore=['\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 " Toggle the NERD Tree on an off with F7
 nmap <silent> <F7> :NERDTreeToggle<CR>
 
-" Shift-Tab: NERDTree
-nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
-
 "}}}
 
 " My latest additions "{{{
@@ -646,14 +642,6 @@ nnoremap <leader>j A
 nnoremap <cr> :
 "nnoremap <leader><bs> /
 
-" copy and paste to system clipboard 
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
-
 " better recording
 nnoremap <leader>1 qq
 nnoremap <leader>2 q
@@ -662,6 +650,22 @@ nnoremap Q @q
 " show previous commands
 nnoremap <leader>6 q:
 
+" quick region select
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+
+" nice copy paste functionality
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]
+
+" useful mappings more 
+nnoremap <CR> G
+nnoremap <BS> gg
+nnoremap <leader><leader> :
+
+" fast whole file alignment
+nnoremap <leader>= gg=G``  
 
 
 "}}}
